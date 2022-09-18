@@ -15,7 +15,11 @@ struct IngredientsView: View {
     @FetchRequest
     private var items: FetchedResults<Ingredient>
 
+    let dish: Dish?
+
     @State private var editingIngredient: Ingredient?
+    @State private var error = ""
+    @State private var showError = false
 
     init(dish: Dish?) {
         let request = Ingredient.fetchRequest()
@@ -24,35 +28,88 @@ struct IngredientsView: View {
         }
         request.sortDescriptors = [NSSortDescriptor(keyPath: \Ingredient.name, ascending: true)]
         _items = FetchRequest(fetchRequest: request)
+        self.dish = dish
     }
 
     var body: some View {
-        List {
-            ForEach(items) { item in
-                Button(item.name!) {
-                    editingIngredient = item
-                }
-                .border(Color.green, width: item.isInShoppingCart ? 1 : 0)
+        ForEach(items) { item in
+            Button(item.name ?? "New Ingredient") {
+                editingIngredient = item
             }
-            .onDelete(perform: deleteItems)
+            .border(borderColor(item), width: borderWidth(item))
+        }
+        .onDelete(perform: deleteItems)
+        .toolbar {
+            ToolbarItem {
+                if dish == nil {
+                    Button("Add New Ingredient", action: addNewIngredient)
+                }
+            }
         }
         .sheet(item: $editingIngredient) { ingredient in
             EditIngredientView(ingredient: ingredient)
+        }
+        .alert(error, isPresented: $showError) {
+            Button("OK") {
+                showError.toggle()
+            }
+        }
+    }
+
+    func addNewIngredient() {
+        let ingredient = Ingredient(context: viewContext)
+
+        if let dish = dish {
+            dish.addToIngredients(ingredient)
+        }
+
+        editingIngredient = ingredient
+    }
+
+    private func borderColor(_ item: Ingredient) -> Color {
+        switch (item.isInFridge, item.isInShoppingCart) {
+        case (true, true):
+            return Color.red
+        case (true, false):
+            return Color.green
+        case (false, true):
+            return Color.yellow
+        case (false, false):
+            return Color.clear
+        }
+    }
+
+    private func borderWidth(_ item: Ingredient) -> CGFloat {
+        switch (item.isInFridge, item.isInShoppingCart) {
+        case (false, false):
+            return 0
+        default:
+            return 1
         }
     }
 
     private func deleteItems(offsets: IndexSet) {
         withAnimation {
-            offsets.map { items[$0] }.forEach(viewContext.delete)
-
-            do {
-                try viewContext.save()
-            } catch {
-                // Replace this implementation with code to handle the error appropriately.
-                // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
-                let nsError = error as NSError
-                fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
+            if let dish = dish {
+                offsets.forEach {
+                    dish.removeFromIngredients(items[$0])
+                }
+            } else {
+                offsets.map { items[$0] }.forEach(viewContext.delete)
             }
+
+            saveData()
+        }
+    }
+
+    func saveData() {
+        do {
+            if viewContext.hasChanges {
+                try viewContext.save()
+            }
+        } catch {
+            self.error = error.localizedDescription
+            showError.toggle()
         }
     }
 }

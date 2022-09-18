@@ -10,6 +10,7 @@
 		1599F1C228D6B8D800452928 /* EditIngredientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1599F1C128D6B8D800452928 /* EditIngredientView.swift */; };
 		1599F1C828D6C37700452928 /* ShoppingCartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1599F1C728D6C37700452928 /* ShoppingCartView.swift */; };
 		1599F1CA28D6C6ED00452928 /* FridgeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1599F1C928D6C6ED00452928 /* FridgeView.swift */; };
+		1599F1CD28D6D72700452928 /* SelectIngredientsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1599F1CC28D6D72700452928 /* SelectIngredientsView.swift */; };
 		15EAB7ED28D6A61000DCD9C6 /* MealsApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15EAB7EC28D6A61000DCD9C6 /* MealsApp.swift */; };
 		15EAB7EF28D6A61000DCD9C6 /* Persistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15EAB7EE28D6A61000DCD9C6 /* Persistence.swift */; };
 		15EAB7F228D6A61000DCD9C6 /* Meals.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 15EAB7F028D6A61000DCD9C6 /* Meals.xcdatamodeld */; };
@@ -24,6 +25,8 @@
 		1599F1C128D6B8D800452928 /* EditIngredientView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditIngredientView.swift; sourceTree = "<group>"; };
 		1599F1C728D6C37700452928 /* ShoppingCartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShoppingCartView.swift; sourceTree = "<group>"; };
 		1599F1C928D6C6ED00452928 /* FridgeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FridgeView.swift; sourceTree = "<group>"; };
+		1599F1CB28D6CB3800452928 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		1599F1CC28D6D72700452928 /* SelectIngredientsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectIngredientsView.swift; sourceTree = "<group>"; };
 		15EAB7E928D6A61000DCD9C6 /* Meals.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Meals.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		15EAB7EC28D6A61000DCD9C6 /* MealsApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealsApp.swift; sourceTree = "<group>"; };
 		15EAB7EE28D6A61000DCD9C6 /* Persistence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Persistence.swift; sourceTree = "<group>"; };
@@ -66,12 +69,14 @@
 		15EAB7EB28D6A61000DCD9C6 /* Meals */ = {
 			isa = PBXGroup;
 			children = (
+				1599F1CB28D6CB3800452928 /* Info.plist */,
 				15EAB7EC28D6A61000DCD9C6 /* MealsApp.swift */,
 				1599F1C728D6C37700452928 /* ShoppingCartView.swift */,
 				15EAB7EE28D6A61000DCD9C6 /* Persistence.swift */,
 				15EAB80028D6A9B900DCD9C6 /* DishesView.swift */,
 				15EAB80228D6AAEC00DCD9C6 /* EditDishView.swift */,
 				15EAB7F328D6A61000DCD9C6 /* IngredientsView.swift */,
+				1599F1CC28D6D72700452928 /* SelectIngredientsView.swift */,
 				1599F1C928D6C6ED00452928 /* FridgeView.swift */,
 				1599F1C128D6B8D800452928 /* EditIngredientView.swift */,
 				15EAB7F528D6A61100DCD9C6 /* Assets.xcassets */,
@@ -165,6 +170,7 @@
 				15EAB7EF28D6A61000DCD9C6 /* Persistence.swift in Sources */,
 				15EAB7F428D6A61000DCD9C6 /* IngredientsView.swift in Sources */,
 				1599F1CA28D6C6ED00452928 /* FridgeView.swift in Sources */,
+				1599F1CD28D6D72700452928 /* SelectIngredientsView.swift in Sources */,
 				15EAB80328D6AAEC00DCD9C6 /* EditDishView.swift in Sources */,
 				15EAB80128D6A9B900DCD9C6 /* DishesView.swift in Sources */,
 				15EAB7F228D6A61000DCD9C6 /* Meals.xcdatamodeld in Sources */,
@@ -225,6 +231,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.6;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -277,6 +284,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.6;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SWIFT_COMPILATION_MODE = wholemodule;
@@ -297,6 +305,7 @@
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Meals/Info.plist;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
@@ -307,7 +316,7 @@
 				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphonesimulator*]" = UIStatusBarStyleDefault;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.6;
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 12.3;
@@ -335,6 +344,7 @@
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Meals/Info.plist;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
@@ -345,7 +355,7 @@
 				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphonesimulator*]" = UIStatusBarStyleDefault;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.6;
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 12.3;

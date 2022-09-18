@@ -16,12 +16,16 @@ struct MealsApp: App {
             TabView {
                 DishesView()
                     .tabItem { Label("Dishes", systemImage: "fork.knife.circle") }
-                IngredientsView(dish: nil)
-                    .tabItem { Label("Ingredients", systemImage: "takeoutbag.and.cup.and.straw") }
+                NavigationView {
+                    List {
+                        IngredientsView(dish: nil)
+                    }
+                }
+                .tabItem { Label("Ingredients", systemImage: "takeoutbag.and.cup.and.straw") }
                 ShoppingCartView()
                     .tabItem { Label("Shopping Cart", systemImage: "cart") }
                 FridgeView()
-                    .tabItem { Label("Refridgerator", systemImage: "refrigerator") }
+                    .tabItem { Label("Refridgerator", systemImage: "snowflake") }
             }
             .environment(\.managedObjectContext, persistenceController.container.viewContext)
         }

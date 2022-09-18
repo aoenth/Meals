@@ -25,19 +25,35 @@ struct ShoppingCartView: View {
     }
 
     var body: some View {
-        List(items) { item in
-            HStack {
-                Text(item.name!)
-                Button(action: { remove(ingredient: item) }) {
-                    Label("Remove", systemImage: "cart.badge.minus")
+        NavigationView {
+            List(items) { item in
+                HStack {
+                    Text(item.name!)
+                    Button(action: { remove(ingredient: item) }) {
+                        Label("Remove", systemImage: "cart.badge.minus")
+                    }
+                }
+            }
+            .toolbar {
+                ToolbarItem {
+                    Button("Add all to Fridge", action: addAllToFridge)
+                }
+            }
+            .alert("Error", isPresented: $showError) {
+                Button("OK") {
+                    showError = false
                 }
             }
         }
-        .alert("Error", isPresented: $showError) {
-            Button("OK") {
-                showError = false
-            }
+    }
+
+    func addAllToFridge() {
+        items.forEach { item in
+            item.isInShoppingCart = false
+            item.isInFridge = true
         }
+
+        saveData()
     }
 
     func remove(ingredient: Ingredient) {

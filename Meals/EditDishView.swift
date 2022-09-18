@@ -18,30 +18,41 @@ struct EditDishView: View {
     @State private var error = ""
     @State private var showError = false
     @State private var isEditing = false
+    @State private var showIngredientList = false
 
     var body: some View {
-        VStack {
+        ScrollView {
             HStack {
                 text(label: "Name", binding: $name)
+                Spacer()
                 text(label: "Alternative Name", binding: $alternativeName)
             }
-            ScrollView {
-                VStack {
-                    IngredientsView(dish: dish)
-                        .frame(minHeight: 100, maxHeight: 400)
-                    text(label: instructions, binding: $instructions)
-                    Text(instructions)
-                        .frame(maxWidth: .infinity)
-                        .fixedSize(horizontal: false, vertical: true)
-                }
+            VStack {
+                IngredientsView(dish: dish)
+                text(label: "Instructions", binding: $instructions)
+                    .frame(maxWidth: .infinity)
+                    .fixedSize(horizontal: false, vertical: true)
             }
         }
+        .padding()
         .onAppear(perform: populateExistingFields)
+        .sheet(isPresented: $showIngredientList) {
+            SelectIngredientsView(dish: dish) { ingredient in
+                addItem(ingredient: ingredient)
+            }
+        }
         .toolbar {
-            Button("Add Ingredient", action: addItem)
-            Button(isEditing ? "Save" : "Edit", action: handleEditSave)
-            if isEditing {
-                Button("Cancel") { isEditing = false }
+            ToolbarItem {
+                Menu("More") {
+                    Button("Add Ingredient") {
+                        showIngredientList.toggle()
+                    }
+                    Button(isEditing ? "Save" : "Edit", action: handleEditSave)
+                    if isEditing {
+                        Button("Cancel") { isEditing = false }
+                    }
+                    Button("Delete", action: deleteDish)
+                }
             }
         }
         .alert("Error", isPresented: $showError) {
@@ -67,11 +78,9 @@ struct EditDishView: View {
         isEditing.toggle()
     }
 
-    private func addItem() {
+    private func addItem(ingredient: Ingredient) {
         withAnimation {
-            let newItem = Ingredient(context: viewContext)
-            newItem.name = "New Ingredient"
-            newItem.addToDishes(dish)
+            dish.addToIngredients(ingredient)
 
             do {
                 try viewContext.save()
@@ -84,6 +93,11 @@ struct EditDishView: View {
         }
     }
 
+    func deleteDish() {
+        viewContext.delete(dish)
+        saveData()
+    }
+
     func populateExistingFields() {
         name = dish.name ?? ""
         alternativeName = dish.alternativeName ?? ""
@@ -94,6 +108,10 @@ struct EditDishView: View {
         dish.name = name
         dish.alternativeName = alternativeName
         dish.instructions = instructions
+        saveData()
+    }
+
+    func saveData() {
         do {
             if viewContext.hasChanges {
                 try viewContext.save()
