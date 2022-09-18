@@ -13,8 +13,17 @@ struct MealsApp: App {
 
     var body: some Scene {
         WindowGroup {
-            ContentView()
-                .environment(\.managedObjectContext, persistenceController.container.viewContext)
+            TabView {
+                DishesView()
+                    .tabItem { Label("Dishes", systemImage: "fork.knife.circle") }
+                IngredientsView(dish: nil)
+                    .tabItem { Label("Ingredients", systemImage: "takeoutbag.and.cup.and.straw") }
+                ShoppingCartView()
+                    .tabItem { Label("Shopping Cart", systemImage: "cart") }
+                FridgeView()
+                    .tabItem { Label("Refridgerator", systemImage: "refrigerator") }
+            }
+            .environment(\.managedObjectContext, persistenceController.container.viewContext)
         }
     }
 }

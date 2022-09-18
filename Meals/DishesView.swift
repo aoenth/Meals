@@ -1,5 +1,5 @@
 //
-//  ContentView.swift
+//  DishesView.swift
 //  Meals
 //
 //  Created by Peng, Kevin [C] on 2022-09-17.
@@ -8,35 +8,34 @@
 import SwiftUI
 import CoreData
 
-struct ContentView: View {
+struct DishesView: View {
     @Environment(\.managedObjectContext) private var viewContext
 
     @FetchRequest(
-        sortDescriptors: [NSSortDescriptor(keyPath: \Item.timestamp, ascending: true)],
+        sortDescriptors: [NSSortDescriptor(keyPath: \Dish.name, ascending: true)],
         animation: .default)
-    private var items: FetchedResults<Item>
+    private var items: FetchedResults<Dish>
 
     var body: some View {
         NavigationView {
-            List {
-                ForEach(items) { item in
-                    NavigationLink {
-                        Text("Item at \(item.timestamp!, formatter: itemFormatter)")
-                    } label: {
-                        Text(item.timestamp!, formatter: itemFormatter)
+            VStack {
+                List {
+                    ForEach(items) { item in
+                        NavigationLink {
+                            EditDishView(dish: item)
+                        } label: {
+                            Text(item.name!)
+                        }
+                        .contextMenu(ContextMenu {
+                            Button("Delete") { deleteItem(item )}
+                        })
                     }
                 }
-                .onDelete(perform: deleteItems)
-            }
-            .toolbar {
-#if os(iOS)
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    EditButton()
-                }
-#endif
-                ToolbarItem {
-                    Button(action: addItem) {
-                        Label("Add Item", systemImage: "plus")
+                .toolbar {
+                    ToolbarItem {
+                        Button(action: addItem) {
+                            Label("Add Item", systemImage: "plus")
+                        }
                     }
                 }
             }
@@ -45,9 +44,14 @@ struct ContentView: View {
     }
 
     private func addItem() {
+        let newItem = Dish(context: viewContext)
+        newItem.name = "New Dish"
+    }
+
+    private func performAddItem() {
         withAnimation {
-            let newItem = Item(context: viewContext)
-            newItem.timestamp = Date()
+            let newItem = Dish(context: viewContext)
+            newItem.name = ""
 
             do {
                 try viewContext.save()
@@ -60,9 +64,9 @@ struct ContentView: View {
         }
     }
 
-    private func deleteItems(offsets: IndexSet) {
+    private func deleteItem(_ item: Dish) {
         withAnimation {
-            offsets.map { items[$0] }.forEach(viewContext.delete)
+            viewContext.delete(item)
 
             do {
                 try viewContext.save()
@@ -76,15 +80,8 @@ struct ContentView: View {
     }
 }
 
-private let itemFormatter: DateFormatter = {
-    let formatter = DateFormatter()
-    formatter.dateStyle = .short
-    formatter.timeStyle = .medium
-    return formatter
-}()
-
-struct ContentView_Previews: PreviewProvider {
+struct DishesView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView().environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
+        DishesView().environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
     }
 }
